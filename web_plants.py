@@ -7,7 +7,7 @@ import os
 app = Flask(__name__)
 
 
-def template(title = "HELLO!", text = ""):
+def template(title="HELLO!", text=""):
     now = datetime.datetime.now()
     timeString = now
     templateDate = {
@@ -26,7 +26,7 @@ def hello():
 
 @app.route("/last_watered")
 def check_last_watered():
-    templateData = template(text = water.get_last_watered())
+    templateData = template(text=water.get_last_watered())
     return render_template('main.html', **templateData)
 
 
@@ -39,14 +39,14 @@ def action():
     else:
         message = "I'm a happy plant"
 
-    templateData = template(text = message)
+    templateData = template(text=message)
     return render_template('main.html', **templateData)
 
 
 @app.route("/water")
 def action2():
     water.pump_on()
-    templateData = template(text = "Watered Once")
+    templateData = template(text="Watered Once")
     return render_template('main.html', **templateData)
 
 
@@ -54,7 +54,7 @@ def action2():
 def auto_water(toggle):
     running = False
     if toggle == "ON":
-        templateData = template(text = "Auto Watering On")
+        templateData = template(text="Auto Watering On")
         for process in psutil.process_iter():
             try:
                 if process.cmdline()[1] == 'auto_water.py':
@@ -63,7 +63,7 @@ def auto_water(toggle):
             except:
                 pass
         if not running:
-            os.system("python3.4 auto_water.py&")
+            os.system("python auto_water.py&")
     else:
         templateData = template(text = "Auto Watering Off")
         os.system("pkill -f water.py")
